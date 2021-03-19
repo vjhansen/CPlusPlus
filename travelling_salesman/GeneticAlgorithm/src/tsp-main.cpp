@@ -1,14 +1,15 @@
-//  OOP4200 -- Travelling Salesman Problem, Genetic algorithms (GAs)
-//  Victor J. Hansen -- October 2019 -- USN, Kongsberg
+/*   
+     Travelling Salesman Problem Genetic algorithms (GAs)
+     Victor J. Hansen
+     Update: 19.03.21
+     usage: ./tsp population(int) generations(int) keep(0<float<1) mutate(float)
+*/
 
-// usage: ./tsp population(int) generations(int) keep(0<float<1) mutate(float)
-
-
-#include <iostream>  // standard I/O stream library
-#include <vector>    // vector container class
-#include <fstream>	 // file stream classes (e.g. ifstream)
-#include <string> 	 // string types
-#include <cstdlib>	 // C standard general utilities (e.g. rand, srand, atoi, atof)
+#include <iostream>  
+#include <vector>    
+#include <fstream>	 
+#include <string> 	 
+#include <cstdlib>	
 #include <ctime>
 
 #include "point.h"  // Point class
@@ -49,7 +50,7 @@ void printVec(const std::vector<Point>& points) {
         <<", "<<points[i].getZ_coord()<< std::endl;
     }
 }
-// print path
+
  void printPath(const std::vector<int>& shortestPath) {
     std::cout<<"\nBest order: [ ";
     for (int i=0; i<shortestPath.size()-1; i++) {
