@@ -1,4 +1,4 @@
-# C++ SUMMARY 
+# C++ SUMMARY
 
 ### Declarations
 ```cpp
@@ -176,7 +176,7 @@ The class *definition* typically goes in the `.cpp` file. The *definition* exten
 // Constructor
 // You must scope the method definitions with the class name (Polygon::)
 Polygon::Polygon(const int num_sides, const string & name) {
-    this->num_sides = num_sides;    // 'this' is a pointer to the instance of the class. 
+    this->num_sides = num_sides;    // 'this' is a pointer to the instance of the class.
     // Members are accessed via the -> operator
     this->name = name;	// we use 'this->' to avoid shadowing the member variable since the argument shares the same name
 }
@@ -196,7 +196,7 @@ string& Polygon::GetName(void) const {return this->name;}
 void Polygon::SetName(const std::string& name) {this->name = name;}
 ```
 
-> NOTE: Regarding the use of `this->` in a class definition, there are places where it's strictly necessary for readability, e.g. when your method parameter shares the exact same name as a member variable, you use `this->` to avoid what's called shadowing. However, some prefer to always use `this->` explicitly regardless of whether it's necessary. 
+> NOTE: Regarding the use of `this->` in a class definition, there are places where it's strictly necessary for readability, e.g. when your method parameter shares the exact same name as a member variable, you use `this->` to avoid what's called shadowing. However, some prefer to always use `this->` explicitly regardless of whether it's necessary.
 
 * How do I refer to a field when a method argument has the same name? Use `this`: a pointer to the current instance.
 
@@ -409,7 +409,7 @@ private:
 
 public:
     explicit Circle(double t) : radius(r) {}
-    
+
     // Override the Shape::Area() method with an implementation specific to Circle
     double Area() const override {
         return M_PI * radius * radius; // pi*r^2
@@ -419,7 +419,7 @@ public:
 
 > NOTE: It is very important that a default virtual destructor was included after adding the virtual `Area()` method to the base class. Whenever a base class includes even a single virtual method, it must include a virtual destructor so that the correct destructor(s) are called in the correct order when the object is eventually deleted.
 
-This is called runtime polymorphism because the decision of which implementation of the `Area()` method to use is determined during program execution based on the type that the base is pointing at. It is implemented using the virtual table mechanism. 
+This is called runtime polymorphism because the decision of which implementation of the `Area()` method to use is determined during program execution based on the type that the base is pointing at. It is implemented using the virtual table mechanism.
 
 In the example above, if a class extends from `Shape` but doesn't include an override of `Area()` then calling the `Area()` method will invoke the base class method which (in the implementation above) returns `0.0`. In some cases, you may want to **enforce** that sub-classes implement this method. This is done by not providing a default implementation, thus making it what is called a *pure virtual* method.
 
@@ -485,7 +485,7 @@ To fix this, declare the single-argument `Array` constructor as `explicit`:
 ```cpp
 class Array {
     int size;
-    
+
 public:
     explicit Array(int size) {
         this->size = size;
@@ -580,7 +580,7 @@ public:
         data_ptr = m.data_ptr; 	// Point to the other object's data
         m.data_ptr = nullptr;  	// Remove the other object's data pointer by setting it to nullptr
     }
-    
+
     Movable& operator=(Movable&& m) { // Move assignment operator
         data_ptr = m.data_ptr;
         m.data_ptr = nullptr;
@@ -788,7 +788,7 @@ std::cout << "Hello, World" << std::endl;   // <--- GOOD: It's clear that you're
 ```
 
 ---
-### 2.2 References and Pointers 
+### 2.2 References and Pointers
 A **pointer** variable stores the address of whatever it is pointing to. You can think of pointers as essentially storing a link to another piece of data. You can access the data that the pointer points to with the `->` operator, or dereference it with the `*` operator.
 
 **References** are more akin to an alias. References cannot be `NULL` or `nullptr`, and references cannot be reassigned to reference something else after they have been created. Additionally, references do not take up extra memory; they share the same address as whatever they reference to. References cannot have multiple levels of indirection (pointers can),
@@ -804,7 +804,7 @@ In the following code, assume a 32-bit system, in which case the size of a point
 // Pointers
 int a = 10;             // Ends up at memory address '0x2A000084', for example
 int b = 20;             // Ends up at memory address '0x2A000088'
-int* ptr = nullptr;     /* ptr is a separate variable whose type is 'pointer to int' and whose 
+int* ptr = nullptr;     /* ptr is a separate variable whose type is 'pointer to int' and whose
                            value has been initialized to '0x00000000'*/
 
 printf("ptr = %p\n");   // Prints: 0x0
@@ -838,7 +838,7 @@ Perhaps the most widely used aspect of references is to pass objects by referenc
 // Pass by reference using a const reference
 void Foo(const Bar& bar) {
     int a = bar.GetValue();
-    if (bar.SomeMethod()) { } // ... 
+    if (bar.SomeMethod()) { } // ...
     bar.SetValue(10);   // ERROR! Cannot modify a const reference!
 }
 
@@ -878,7 +878,7 @@ A linked list is made up of many nodes which are connected in nature. Every node
 ```cpp
 //--------------------------------------------------------------
 // Node structs contain data and a pointer to the next node.
-struct node { 
+struct node {
     int data;
     node* next; // pointer to next node
 };
@@ -888,12 +888,12 @@ struct node {
 // LinkedList is a list of singly-linked nodes.
 class LinkedList {
 private:
-    // We store the first node in ‘head’ and the last node in ‘tail’. 
+    // We store the first node in ‘head’ and the last node in ‘tail’.
     node* head;
     node* tail;
     int listLength;
-/* 
-	the most important part of a linked list is to always keep the track of the 
+/*
+	the most important part of a linked list is to always keep the track of the
 	first node (head) because access to the first node means access to the entire list.
 */
 
@@ -902,26 +902,26 @@ public:
     LinkedList() {
         head = NULL; // NULL since our list is empty
         tail = NULL;
-    }   
+    }
     ~LinkedList(){} // Destructor de-allocates memory used by the list.
-    
+
     void addNode(int n) {
-        node* tmp = new node;  /* We are allocating the space required for a node by the new operator. 
+        node* tmp = new node;  /* We are allocating the space required for a node by the new operator.
                                 Now, ‘tmp’ points to a node (or space allocated for the node). */
         tmp->data = n; // We are giving a value to the ‘data’ of ‘tmp’ as passed to the function.
         tmp->next = NULL; // point to null
- 
+
         if (head == NULL) { // If there is no list yet, our current node(tmp) will be the ‘head’.
             head = tmp;
-            tail = tmp;     // node(tmp) will also be the last element 
+            tail = tmp;     // node(tmp) will also be the last element
         }
         else { // we have a list
             tail->next = tmp;   // add new node(tmp) to end of list (after the tail)
             // "the old tail points to node(tmp)"
             tail = tail->next;  // our new node(tmp) is the tail now, the tail points to 0x0
         }
-    }   
-    /* if ‘a’ is a node then a->next is the node next to the ‘a’-node 
+    }
+    /* if ‘a’ is a node then a->next is the node next to the ‘a’-node
 	(the pointer storing the address of the next node is named ‘next’)*/
 };
 
@@ -934,7 +934,7 @@ int main() {
 
 ### 2.8 Memory
 Memory in your C++ program is divided into two parts:
-* The **stack** − All variables declared inside the function will take up memory from the stack. 
+* The **stack** − All variables declared inside the function will take up memory from the stack.
 * The **heap** − This is unused memory of the program and can be used to allocate the memory dynamically when program runs.
 
 Many times, you are not aware in advance how much memory you will need to store particular information in a defined variable and the size of required memory can be determined at run time. You can allocate memory at run time within the heap for the variable of a given type using a special operator in C++ which returns the address of the space allocated. This operator is called 'new' operator. If you are not in need of dynamically allocated memory anymore, you can use 'delete' operator, which de-allocates memory that was previously allocated by new operator.
@@ -943,7 +943,7 @@ Many times, you are not aware in advance how much memory you will need to store 
 ## ASSIGNMENTS from Canvas :christmas_tree:
 > Not Travelling Salesman
 
-#### Create a program that reads a text string with two numbers 
+#### Create a program that reads a text string with two numbers
 and a operator and prints the result.
 
 ```cpp
@@ -963,7 +963,7 @@ int main() {
         case '/':
             if (num2 == 0) { cout << "Don't divide by zero!"; }
             else
-                cout<<endl<< "The answer to " << num1 << op << num2 
+                cout<<endl<< "The answer to " << num1 << op << num2
                 << " is " << (double) num1/num2 << endl;
             break;
         default:
@@ -973,7 +973,7 @@ int main() {
 }
 ```
 
-#### Program that reads a text string with multiple numbers 
+#### Program that reads a text string with multiple numbers
 and operators and prints the result.
 
 ```cpp
@@ -1041,7 +1041,7 @@ int main() {
 }
 ```
 
-#### `Tokenizer` - Program that reads a text string with multiple numbers 
+#### `Tokenizer` - Program that reads a text string with multiple numbers
 and operators and prints the result. But now it should be possible, among other things, to use () around partial expressions and the program must deal with arbitrary number of parameters. It is also advantageous to add some other operators %, ^ (power) etc. A natural extension is also to create the program so that the text string can be entered at the start of the program from the command line.
 
 ```cpp
@@ -1135,7 +1135,7 @@ double expression();
 /* e.g. 45 + 11 * 7
  45: number -> primary -> term -> expression followed by '+', 11=term: (expression+term=45+11)
  11: number -> primary -> term followed by '*', 7=primary: (term * primary = 11 * 7)
- 45+11*7 is an expression where 3)(11*7) will be evaluated before the addition 4)45+(11*7) 
+ 45+11*7 is an expression where 3)(11*7) will be evaluated before the addition 4)45+(11*7)
  */
 
 double primary() { // handles numbers and parentheses, calls expression().
@@ -1168,7 +1168,7 @@ double term() { // handles '*', '/' and '%'. calls primary
             case mul:
                 left *= term();
                 curr_token = ts.get();
-                break;  
+                break;
             case MOD: {
                 auto d = term();
                 int a=left;
@@ -1181,7 +1181,7 @@ double term() { // handles '*', '/' and '%'. calls primary
                 left = pow(left,term());
                 curr_token = ts.get();
                 break;
-                
+
             case DIV:
                 if (auto d = term()) {
                     left /= d;
@@ -1252,17 +1252,17 @@ public:
     Student();  //-Default constructor
     Student(std::string, int, std::string); //-Overloaded constructor
     ~Student(); //-Destructor
-    
+
     //-Accessors (const = not modifiable)
     std::string getName() const;    //-return name
     int getAge() const;             //-return age
     std::string getDegree() const;  //-return degree
-    
+
     //-Mutators (modifiable)
     void setName();     //-modify name
     void setAge();      //-modify age
     void setDegree();   //-modify degree
-    
+
     void printData();
 };
 
@@ -1285,7 +1285,7 @@ Student::~Student() {
     << Age <<", "<< Degree << std::endl;
 }
 void Student::printData() {
-    std::cout <<"Created a student: "<< Name <<", " 
+    std::cout <<"Created a student: "<< Name <<", "
     << Age <<", "<< Degree << std::endl;
 }
 
@@ -1325,8 +1325,8 @@ int main() {
 Size three(3) that stores objects of the type Student.
 
 ```cpp
-class Student { }; // same as before 
-Student::Student() {} // same as before 
+class Student { }; // same as before
+Student::Student() {} // same as before
 Student::Student(std::string n, int a, std::string d) { } // same as before
 Student::~Student() {}
 
@@ -1339,7 +1339,7 @@ void fillVec(std::vector<Student>& new_students){
     int a;
     std::cout<<"How many students? ";
     int size;
-    std::cin>>size;    
+    std::cin>>size;
     for (int i=0; i<size; i++) {
         std::cout<<"Student("<<i+1<<") name: ";
         std::cin>>n;
@@ -1368,20 +1368,20 @@ int main() {
 
 ### Create table with:
 Size three(3) that stores objects of the type pointer to Student.
- 
+
 ```cpp
 class Student { }; // same as before
 
 Student::Student() {  } // same as before
 Student::Student(std::string n, int a, std::string d) {  } // same as before
 Student::~Student() {}
-std::string Student::getName() const {return Name;} // ..... same as before 
+std::string Student::getName() const {return Name;} // ..... same as before
 
 void fillVec(std::vector<Student*>& new_Vec_students) {
     Student* p_students = NULL;
-    //... same as before 
+    //... same as before
     for (int i=0; i<size; i++) {
-        //... same as before 
+        //... same as before
         p_students = new Student(n,a,d);
         new_Vec_students.push_back(p_students);
     }
@@ -1428,13 +1428,13 @@ public:
     StudentNode();  //-Default constructor
     StudentNode(std::string, int, std::string); //-Overloaded constructor
     ~StudentNode(); //-Destructor
-        
+
     std::string Name;
     int Age;
     std::string Degree;
     StudentNode* next;
-    friend class StudentLink;  
-    /* friend class: a class whose members have access to 
+    friend class StudentLink;
+    /* friend class: a class whose members have access to
         the private members of another class. */
 };
 
@@ -1445,7 +1445,7 @@ public:
     StudentLink();  //-Default constructor
     StudentLink(std::string, int, std::string); //-Overloaded constructor
     ~StudentLink(); //-Destructor
-   
+
     void addData(std::string, int, std::string);
     void print();
 };
@@ -1476,24 +1476,26 @@ void StudentLink::addData(string Name, int Age, std::string Degree) {
     Snode->next = this->head;
     this->head = Snode;
 }
-void StudentLink::print() {
+void StudentLink::print() 
+{
     StudentNode* head = this->head;
     while (head) {
-        std::cout<<" -> ["<<head->Name<<", "
+        std::cout << " -> ["<<head->Name<<", "
         << head->Age <<", "<<head->Degree<<"]";
         head = head->next;
     }
 }
-static void setValues(StudentLink *list) {
+static void setValues(StudentLink *list) 
+{
     std::string n, d;
     int a;
-    std::cout<<"How many students? ";
+    std::cout << "How many students? ";
     int size;
-    std::cin>>size;
+    std::cin >> size;
     for (int i=0; i<size; ++i) {
-        cout<<"Student("<<i+1<<") name: ";   cin>>n;
-        cout<<"Student("<<i+1<<") age: ";    cin>>a;
-        cout<<"Student("<<i+1<<") degree: "; cin>>d;
+        cout << "Student(" << i+1 << ") name: ";   cin >> n;
+        cout << "Student(" << i+1 << ") age: ";    cin >> a;
+        cout << "Student(" << i+1 << ") degree: "; cin >> d;
         list->addData(n, a, d);
     }
 }
@@ -1510,14 +1512,17 @@ We add a static data element to the Student class to store the number of student
 ```cpp
 // Curiously recurring template pattern
 template <typename T>
-struct counter {
+struct counter 
+{
     static int students_created;
     static int students_alive;
-    counter() {
+    counter() 
+    {
         ++students_created;
         ++students_alive;
     }
-    counter(const counter&) {
+    counter(const counter&) 
+    {
         ++students_created;
         ++students_alive;
     }
@@ -1533,24 +1538,26 @@ template <typename T> int counter<T>::students_alive(0);
 //class Student derives from a class template instantiation using Student itself as template argument.
 class Student : counter<Student> {// same as before };
 
-Student::Student(std::string n, int a, std::string d) {} // same as before 
-std::string Student::getName() const {return Name;}     // ....(get set) same as before 
-void fillVec(std::vector<Student>& new_students) {} // same as before 
+Student::Student(std::string n, int a, std::string d) {} // same as before
+std::string Student::getName() const {return Name;}     // ....(get set) same as before
+void fillVec(std::vector<Student>& new_students) {} // same as before
 void printVec(const std::vector<Student>& new_students) { } // same as before
 
-void PrintNumberOfStudents(const std::vector<Student>& students){
-    std::cout<<"\nNumber of student objects created = "           
-             <<counter<Student>::students_created<<std::endl;
-    std::cout<<"\nNumber of student objects alive = "
-             <<counter<Student>::students_alive<<std::endl;
+void PrintNumberOfStudents(const std::vector<Student>& students)
+{
+    std::cout << "\nNumber of student objects created = "
+              << counter<Student>::students_created << std::endl;
+    std::cout << "\nNumber of student objects alive = "
+              << counter<Student>::students_alive << std::endl;
 }
 
-int main() {
+int main() 
+{
     std::vector<Student> students;
     fillVec(students);
     printVec(students);
     PrintNumberOfStudents(students);
-    students.clear(); //Removes all elements from the vector, leaving the container with a size of 0.
+    students.clear();  //Removes all elements from the vector, leaving the container with a size of 0.
     PrintNumberOfStudents(students);
 }
 ```
@@ -1560,30 +1567,33 @@ Create two classes, Student and Professor, with the added data: ECTS (for Studen
 Constructor calls the constructor in the base class and use that for initialising the class.
 
 ```cpp
-class Human {
-private:
+class Human 
+{
+ private:
     std::string Name;
     int Age;
-public:
+ public:
     Human() { cout<<"Creating default Human"<<endl;}
     Human(std::string n, int a) : Name(n), Age(a) { cout<<"Creating overloaded Human"<<endl;}
-    
+
     std::string getName() const {return Name;}
     int getAge() const {return Age;}
     void setName(std::string n) {Name = n;}
     void setAge(int a) {Age = a;}
-    
+
     virtual void printHuman() {
         std::cout<<"Name: "<<Name<<std::endl
         <<"Age: "<<Age<<std::endl;
     }
 };
 //------------------------------------
-class Student : public Human {
-private:
+class Student : public Human 
+{
+ private:
     int ECTS;
-public:
-    Student(std::string Name, int Age, int e) : Human(Name, Age) {
+ public:
+    Student(std::string Name, int Age, int e) : Human(Name, Age) 
+    {
         ECTS = e;
         std::cout<<"Creating overloaded Student"<<std::endl;
     }
@@ -1594,30 +1604,34 @@ public:
     }
 };
 //------------------------------------
-class Professor : public Human {
-private:
+class Professor : public Human 
+{
+ private:
     int Papers;
-public:
-    Professor(std::string Name, int Age, int P) : Human(Name, Age) {
+ public:
+    Professor(std::string Name, int Age, int P) : Human(Name, Age) 
+    {
         Papers = P;
-        std::cout<<"Creating overloaded Professor"<<std::endl;
+        std::cout << "Creating overloaded Professor" << std::endl;
     }
     int getPapers() const {return Papers;}
-    void printProfessor() {
+    void printProfessor() 
+    {
         Human::printHuman();
-        std::cout<<"Papers: "<<Papers<<std::endl;
+        std::cout << "Papers: " << Papers << std::endl;
     }
 };
 
-int main() {
+int main() 
+{
     Student stu("Putin",20,300);
     stu.printStudent();
-    
+
  //alternative.
  //Student stu("Student",20,300);
  //Student* s_p = &stu;
  //s_p->printStudent();
- 
+
     Professor pro("Prof.",30,50);
     pro.printProfessor();
     return 0;
@@ -1628,38 +1642,44 @@ int main() {
 Add the data number (007 or similar) include this get and set methods, verify that these can be used in the main(), while the others can not.
 
 ```cpp
-class Human {
-private:
+class Human 
+{
+ private:
     std::string Name;
     int Age;
-public:
+ public:
     Human() { cout<<"Creating default Human"<<std::endl; }
     Human(std::string n, int a) {
         Name = n;
         Age = a;
         std::cout<<"Creating overloaded Human"<<std::endl;
     }
-    
+
     std::string getName() const {return Name;}
     int getAge() const {return Age;}
-    void setName() {
+    void setName() 
+    {
         std::string n;
         Name = n;
     }
-    void setAge() {
+    void setAge() 
+    {
         int a = 0;
         Age = a;
     }
-    virtual void printHuman() {
-        std::cout<<"Name: "<<Name<<std::endl <<"Age: "<< Age << std::endl;
+    virtual void printHuman() 
+    {
+        std::cout << "Name: " << Name << std::endl << "Age: " << Age << std::endl;
     }
 };
 
-class SecretAgent : private Human {
-private:
+class SecretAgent : private Human 
+{
+ private:
     std::string agentNr;
-public:    
-    SecretAgent() {
+ public:
+    SecretAgent() 
+    {
     //Name = " "; //- private member of human
     //Age = 0;    //- private member of human
         agentNr = " ";
@@ -1670,37 +1690,41 @@ public:
     //Age = a;  //- private member of human
         agentNr = a_nr;
         std::cout<<"Creating overloaded Agent"<<std::endl;
-    } 
+    }
     std::string getAgentNr () const {return agentNr;}
-    void setAgentNr() {
+    void setAgentNr() 
+    {
         std::string a_nr = "007";
         agentNr = a_nr;
-    }    
-    void printAgent() {
+    }
+    void printAgent() 
+    {
         Human::printHuman();
         std::cout<<"Agent: "<<agentNr<<std::endl;
     }
 };
 
-int main() {
+int main() 
+{
     SecretAgent james;
     james.setAgentNr();
     james.printAgent();
-    SecretAgent S("Stalin",40,"008");
+    SecretAgent S("Smith",40,"008");
     S.printAgent(); // only the agentNr will be printed.
 }
 ```
-### template - swap
-You can swap the value of two objects of the class/type string. As long as your types support copying (via copy constructor and copy assignment operator), the default swap implementation will let objects of your types be swapped without your having to do any special work to support it. However, the default swap implementation may not thrill you. It involves copying three objects: a to temp, b to a, and temp to b. For some types, none of these copies are really necessary. For such types, the default swap puts you on the fast track to the slow lane. Foremost among such types are those consisting primarily of a pointer to another type that contains the real data. 
+### Template - swap
+You can swap the value of two objects of the class/type string. As long as your types support copying (via copy constructor and copy assignment operator), the default swap implementation will let objects of your types be swapped without your having to do any special work to support it. However, the default swap implementation may not thrill you. It involves copying three objects: a to temp, b to a, and temp to b. For some types, none of these copies are really necessary. For such types, the default swap puts you on the fast track to the slow lane. Foremost among such types are those consisting primarily of a pointer to another type that contains the real data.
 
 ```cpp
-class abc {
-public:
+class abc 
+{
+ public:
 	abc();
 	abc(std::string);
-	~abc(){;}	
+	~abc(){;}
 	std::string getString() const;
-private:
+ private:
 	std::string str;
 };
 
@@ -1708,7 +1732,8 @@ abc::abc(std::string s) {str = s;}
 std::string abc::getString() const {return str;}
 
 template <class X>
-void Swap(X& a, X& b) {
+void Swap(X& a, X& b) 
+{
     X temp;
     // pass by value needs a copy constructor
     // pass by reference doesn't need a copy constructor
@@ -1717,7 +1742,8 @@ void Swap(X& a, X& b) {
     b = temp;   // b gets address of temp (=a)
 }
 
-int main() {
+int main() 
+{
     int nI = 10, nJ = 2;
     char c1 = 'B', c2 = 'A';
     float f1 = 0.0, f2 = -1.0;
@@ -1735,22 +1761,22 @@ int main() {
     cout<<s1p<<" "<<s2p<<endl; //print after swap
 s1p now points to s2[0]='d', and s2p points to s1[0]='a'.
 
-A CString can not have a new value assigned to it after it is declared. 
+A CString can not have a new value assigned to it after it is declared.
 Therefore we have to declare the CString as a pointer to a char.
-    char* str = "abc"; 
-This creates an array containing your string + a terminating null character ('\0'). 
+    char* str = "abc";
+This creates an array containing your string + a terminating null character ('\0').
 The address of the first element in the array will be placed in the pointer.
 
 */
     abc a("hei");
     abc b("hallo");
-    Swap(nI, nJ); // ok
-    Swap(c1, c2); // ok
-    Swap(f1, f2); // ok
-    Swap(s1, s2); // ok
-    Swap(Cstr1, Cstr2); // ok   
-    Swap(a,b); // ok
-    std::cout<<a.getString()<<" " <<b.getString();
+    Swap(nI, nJ);
+    Swap(c1, c2);
+    Swap(f1, f2);
+    Swap(s1, s2);
+    Swap(Cstr1, Cstr2);
+    Swap(a,b);
+    std::cout << a.getString() << " " << b.getString();
     return 0;
 }
 ```
@@ -1759,21 +1785,22 @@ The address of the first element in the array will be placed in the pointer.
 
 ```cpp
 // **GetMax**
-template <typename T> // class = typename
- T GetMax (T a, T b) {
-     return (a>b ? a:b); // (condition ? value_if_true : value_if_false)
+template <typename T>  // class = typename
+ T GetMax (T a, T b)
+ {
+     return (a>b ? a:b);  // (condition ? value_if_true : value_if_false)
  }
 int i=1, j=2, k;
 char x='a',y='f',z;
 k = GetMax(i, j); // int GetMax (int a, int b);
-z = GetMax(x, y); // char GetMax (char a, char b); 
+z = GetMax(x, y); // char GetMax (char a, char b);
 ```
 
 ```cpp
 #include <cmath>
 
 template <typename T>
-T myAbs(T x) { return (x*((x>0)-(x<0))); } //similar to abs(x)
+T myAbs(T x) { return (x*((x>0)-(x<0))); }  //similar to abs(x)
 
 template <typename T>
 T myAdd(T x, T y) {return (x + y);}
@@ -1781,16 +1808,17 @@ T myAdd(T x, T y) {return (x + y);}
 template <typename T>
 T myPow(T x, int y) {return pow(x, y);}
 
-int main(int argc, const char * argv[]) {
+int main(int argc, const char * argv[])
+{
    /* What happens if we have two string-objects s1 "hei” and  s2 "hallo":
     myAbs(s1); // doesnt work because of abs()
     myAdd(s1,s2); //  --> = heihallo
     myPow(s2,2); // doesnt work because of pow() */
     std::string s1 = "hei";
-    std::string s2 = "hallo";  
-    std::cout<<"myAbs: "<<myAbs(1)<<std::endl;
-    std::cout<<"myAdd: "<<myAdd(s1, s2)<<std::endl;
-    std::cout<<"myPow: "<<myPow(4, 2)<<std::endl;
+    std::string s2 = "hallo";
+    std::cout << "myAbs: " << myAbs(1) << std::endl;
+    std::cout << "myAdd: " << myAdd(s1, s2) << std::endl;
+    std::cout << "myPow: " << myPow(4, 2) << std::endl;
 }
 ```
 
@@ -1801,12 +1829,13 @@ We create a class ZeroException that inherits from the exception-class in STL. W
 
 * **`catch`-block**: Catch the error and handle the exception condition. We can have multiple catch blocks to handle different types of exception and perform different actions when the exceptions occur. e.g., we can display descriptive messages to explain why any particular excpetion occured.
 
-* **`throw` statement**: Throw exceptions to exception handler i.e. it is used to communicate information about error. 
+* **`throw` statement**: Throw exceptions to exception handler i.e. it is used to communicate information about error.
 A throw expression accepts one parameter and that parameter is passed to handler. A throw statement is used when we explicitly want an exception to occur, then we can use throw statement to throw or generate that exception.
 
 ```cpp
-class ZeroException : public std::exception {
-public:
+class ZeroException : public std::exception
+{
+ public:
 	ZeroException() {}
 	ZeroException(int);
 	~ZeroException(){;}
@@ -1817,18 +1846,23 @@ public:
 
 ZeroException::ZeroException(int t) : teller(t){}
 
-float divide(int numerator, int divisor) {
-	if (divisor == 0) {
+float divide(int numerator, int divisor)
+{
+	if (divisor == 0)
+    {
 		ZeroException e;
 		e.setTeller(numerator);
 		throw e; // throw exception
 	}
 	return (numerator/divisor);
 }
-void testDivisor(void) {
-	for (int i=1 ;; i++) { // infinite loop
+void testDivisor(void)
+{
+	for (int i=1 ;; i++)
+    {
 		try { divide(i, rand()%100); }
-		catch (const ZeroException& e) {
+		catch (const ZeroException& e)
+        {
 			std::cout<<"Divided "<< i <<" times without generating a divide by zero."<<std::endl;
 			std::cout<<"Got divided: "<<e.getTeller()<<" by zero. "<<std::endl;
 			exit(1);
@@ -1851,11 +1885,12 @@ int main() {
                 |(2*4+3*4) (2*5+3*5)|   |(20) (25)|
 */
 
-class Matrix {
-private:
+class Matrix
+{
+ private:
   std::vector<std::vector<double> > mat;
   unsigned m, n;
-public:
+ public:
   Matrix(unsigned _m, unsigned _n, const double& _init1, const double& _init2);
   Matrix(const Matrix& rhs);
   virtual ~Matrix(){}
@@ -1873,7 +1908,7 @@ public:
   // Access the individual elements
   double& operator()(const unsigned& row, const unsigned& col);
   const double& operator()(const unsigned& row, const unsigned& col) const;
-  
+
   // Access the row and column sizes
   unsigned get_m() const;
   unsigned get_n() const;
@@ -1959,11 +1994,13 @@ std::vector<double> Matrix::operator*(const std::vector<double>& rhs) {
   return result;
 }
 // Access the individual elements
-double& Matrix::operator()(const unsigned& row, const unsigned& col) {
+double& Matrix::operator()(const unsigned& row, const unsigned& col)
+{
   return this->mat[row][col];
 }
 // Access the individual elements (const)
-const double& Matrix::operator()(const unsigned& row, const unsigned& col) const {
+const double& Matrix::operator()(const unsigned& row, const unsigned& col) const
+{
   return this->mat[row][col];
 }
 // Get the number of rows of the matrix
@@ -1971,12 +2008,16 @@ unsigned Matrix::get_m() const {
   return this->m;
 }
 // Get the number of columns of the matrix
-unsigned Matrix::get_n() const {
+unsigned Matrix::get_n() const
+{
     return this->n;
 }
-void show(const Matrix& mat) {
-    for (int i=0; i<mat.get_m(); i++) {
-        for (int j=0; j<mat.get_n(); j++) {
+void show(const Matrix& mat)
+{
+    for (int i=0; i<mat.get_m(); i++)
+    {
+        for (int j=0; j<mat.get_n(); j++)
+        {
             std::cout << mat(i,j) << ", ";
         }
         std::cout << std::endl;
@@ -1984,7 +2025,8 @@ void show(const Matrix& mat) {
     std::cout << std::endl;
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[])
+{
     Matrix mat1(2, 2, 2, 3);
     Matrix mat2(2, 2, 4, 5);
     show(mat1);
