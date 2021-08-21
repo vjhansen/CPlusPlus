@@ -7,7 +7,7 @@ int a[] = {0,1,2};              // Initialized array (or a[3]={0,1,2}; )
 int a[2][2] = {{1,2},{4,5}};    // Array of array of ints
 char s[] = "hello";             // String (6 elements including '\0')
 string s = "Hello"              // Creates string object with value "Hello"
-int* p;                     	// p is a pointer to (address of) int
+int* p;                         // p is a pointer to (address of) int
 char* s = "hello";              // s points to unnamed array containing "hello"
 void* p = nullptr;              // Address of untyped memory (nullptr is 0)
 int& r = x;                     // r is a reference to (alias of) int x
@@ -127,12 +127,12 @@ reverse(a.begin(), a.end());    // Reverse vector or deque
 ---
 ### Pointer vs. reference
 
-**References** 				 | **Pointers**
+**References**               | **Pointers**
 -----------------------------------------|----------------
 Must be initialized when it it's created.| Can be initialized any time.
 Once initialized, we cannot reinitialize.| Can be reinitialized any number of time.
-Can never have a NULL reference.	 | Can be NULL.
-Automatically dereferenced.		 | `*` is used to dereference.
+Can never have a NULL reference.     | Can be NULL.
+Automatically dereferenced.      | `*` is used to dereference.
 
 ---
 ## 1.0 C++ Classes
@@ -147,7 +147,7 @@ Here's a simple class representing a polygon, a shape with any number of sides. 
 class Polygon {
 // Private members and methods are only accessible via methods in the class definition
 private:
-    int num_sides;    	// Number of sides
+    int num_sides;      // Number of sides
 // Protected members and methods are only accessible in the class definition or by classes who extend this class
 protected:
     string name;   // Name of the polygon
@@ -178,11 +178,11 @@ The class *definition* typically goes in the `.cpp` file. The *definition* exten
 Polygon::Polygon(const int num_sides, const string & name) {
     this->num_sides = num_sides;    // 'this' is a pointer to the instance of the class.
     // Members are accessed via the -> operator
-    this->name = name;	// we use 'this->' to avoid shadowing the member variable since the argument shares the same name
+    this->name = name;  // we use 'this->' to avoid shadowing the member variable since the argument shares the same name
 }
 
 // Get the number of sides
-int Polygon::GetNumSides(void) const {	// The 'const' here tells the compiler that you guarantee that you won't modify the object when this function is called. This allows it to perform optimizations that it otherwise may not be able to do.
+int Polygon::GetNumSides(void) const {  // The 'const' here tells the compiler that you guarantee that you won't modify the object when this function is called. This allows it to perform optimizations that it otherwise may not be able to do.
     return this->num_sides;
 }
 
@@ -243,16 +243,16 @@ public:
 
 > If you have getters and setters for all of your members, you may want to reconsider the design of your class. Could a variable be set once in the constructor and left const thereafter? Does it need to be modified at all? Is it set somewhere else in another method, perhaps even indirectly?
 
-### 1.2 Inheritance
+### Inheritance
 A class can extend another class, meaning that the new class inherits all of the data from the other class, and can also override its methods, add new members, etc. Inheritance is the key feature required for polymorphism.
 
 **Example:** the class `Rectangle` can inherit from the class `Polygon`. You would then say that a `Rectangle` extends from a `Polygon`, or that class `Rectangle` is a sub-class of `Polygon`. In plain English, this means that a `Rectangle` is a more specialized version of a `Polygon`. Thus, all rectangles are polygons, but not all polygons are rectangles.
 
-#### 1.2.1 `Rectangle` Declaration (`.h` file)
+#### `Rectangle` Declaration (`.h` file)
 ```cpp
 // File: rectangle.h
 #include <string>       // Explicitly include the string header, even though polygon.h also includes it
-#include "polygon.h"	// You must include the declaration in order to extend the class
+#include "polygon.h"    // You must include the declaration in order to extend the class
 
 /* We extend from Polygon by using the colon (:) and specifying which type of inheritance
 will be used (public inheritance, in this case) */
@@ -283,7 +283,7 @@ public:
 #### 1.2.2 `Rectangle` Definition (`.cpp` file)
 ```cpp
 // File: rectangle.cpp
-#include "rectangle.h"	// Only need to include 'Rectangle', since 'Polygon' is included in 'rectangle.h'
+#include "rectangle.h"  // Only need to include 'Rectangle', since 'Polygon' is included in 'rectangle.h'
 
 // This constructor calls the superclass (Polygon) constructor and sets the name and number of sides to '4', and then sets the length and width.
 Rectangle::Rectangle(const string& name, const int length, const int width) : Polygon(4, name) {
@@ -293,24 +293,27 @@ Rectangle::Rectangle(const string& name, const int length, const int width) : Po
 
 // This constructor calls the superclass (Polygon) constructor, but sets the length and width to a constant value
 // The explicit keyword is used to restrict the use of the constructor.
-explicit Rectangle::Rectangle(const string &name) : Polygon(4, name) {
+explicit Rectangle::Rectangle(const string &name) : Polygon(4, name) 
+{
     this->length = 1;
     this->width = 1;
 }
 
 // Compute the area of the rectangle
-int Rectangle::Area(void) const {
+int Rectangle::Area(void) const 
+{
     return length*width;
 }
 ```
 
-#### 1.2.3 `Rectangle` Utilization (Another `.cpp` file)
+#### `Rectangle` Utilization (Another `.cpp` file)
 ```cpp
 // File: main.cpp
 #include <iostream>
 #include "Rectangle.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) 
+{
     Rectangle rectangle = Rectangle("Square", 6, 6);
     // Prints "Square has 4 sides, and an area of 36"
     cout<<rectangle.GetName()<<" has "<<rectangle.GetNumSides()<<" sides, and an area of "<<rectangle.Area();
@@ -329,7 +332,8 @@ Considering a shape to be any 3 or more sided polygon from which we can compute 
 
 class Shape {//....};
 
-class Rectangle : public Shape {
+class Rectangle : public Shape 
+{
 private:
     double length;
     double width;
@@ -389,7 +393,8 @@ public:
     virtual double Area() const { return 0.0; }
 };
 
-class Rectangle : public Shape {
+class Rectangle : public Shape 
+{
 private:
     double length;
     double width;
@@ -424,7 +429,8 @@ This is called runtime polymorphism because the decision of which implementation
 In the example above, if a class extends from `Shape` but doesn't include an override of `Area()` then calling the `Area()` method will invoke the base class method which (in the implementation above) returns `0.0`. In some cases, you may want to **enforce** that sub-classes implement this method. This is done by not providing a default implementation, thus making it what is called a *pure virtual* method.
 
 ```cpp
-class Shape {
+class Shape 
+{
 public:
     virtual ~Area() {}
     virtual double Area() const = 0;
@@ -446,20 +452,23 @@ All classes have at least one constructor and a destructor, even if they are not
 The `explicit` keyword should be used in single-argument constructors to avoid a situation in which the constructor is implicitly invoked when a single argument is given in place of an object. Consider the following `Array` class:
 
 ```cpp
-class Array {
+class Array 
+{
 private:
     int size;
 
 public:
     // Constructor
-    Array(int size) {
+    Array(int size) 
+    {
         this->size = size;
     }
 
     ~Array() {} // Destructor
 
     // Print the contents of the array
-    Print(const Array& array) {
+    Print(const Array& array) 
+    {
         // ...
     }
 };
@@ -533,8 +542,8 @@ The `new` and `delete` operators (and their array counterparts, `new[]` and `del
 Copy constructors and copy assigment operators allow one object to be constructed or assigned a copy of another object directly:
 ```cpp
 Foo a(10);
-Foo b(a);   	// (1): Copy via constructor
-Foo c = a;	// (2): Copy via assignment operator
+Foo b(a);       // (1): Copy via constructor
+Foo c = a;  // (2): Copy via assignment operator
 ```
 
 This is accomplished by supplying a copy constructor and an assigment operator overload, both of which have a special syntax
@@ -546,13 +555,13 @@ private:
     int data;
 
 public:
-    Foo() : data(0) {} 		// Default (no argument) constructor
+    Foo() : data(0) {}      // Default (no argument) constructor
 
-    explicit Foo(const int v) : data(v) {} 	// Single argument constructor
+    explicit Foo(const int v) : data(v) {}  // Single argument constructor
 
-    Foo(const Foo& f) : data(f.data) {} 	// Copy constructor
+    Foo(const Foo& f) : data(f.data) {}     // Copy constructor
 
-    Foo& operator=(const Foo& f) { 	// Copy assignment operator
+    Foo& operator=(const Foo& f) {  // Copy assignment operator
         data = f.data;
         return *this;
     }
@@ -564,8 +573,8 @@ public:
 Every time a data element is sent as a `by value` (i.e. not by reference or pointer) the copy constructor is used automatically. Copy constructors accepts one parameter: a reference to a object of the class it belongs to. The task of the copy constructor is to transfer data from the parameters object to the `this` object. If the data is just basic types and no pointers, then there is no need to create a copy constructor. All other cases create one!
 
 
-#### 1.4.4 Move Constructor and Move Assignment (special)
-Sometimes instead of performing a copy you instead wish to completely move data from one object to another. This requires the use of a move constructor and move assignement operator.
+#### Move Constructor and Move Assignment (special)
+Sometimes instead of performing a copy you instead wish to completely move data from one object to another. This requires the use of a move constructor and move assignment operator.
 
 ```cpp
 class Movable {
@@ -577,8 +586,8 @@ public:
 
     // Move constructor
     Movable(Movable&& m) {
-        data_ptr = m.data_ptr; 	// Point to the other object's data
-        m.data_ptr = nullptr;  	// Remove the other object's data pointer by setting it to nullptr
+        data_ptr = m.data_ptr;  // Point to the other object's data
+        m.data_ptr = nullptr;   // Remove the other object's data pointer by setting it to nullptr
     }
 
     Movable& operator=(Movable&& m) { // Move assignment operator
@@ -596,7 +605,7 @@ Movable Bar() { // ... }
 
 int main() {
     Movable a(Bar());       // Using the move constructor
-    Movable b = Bar();		// Using the move assignment operator
+    Movable b = Bar();      // Using the move assignment operator
 }
 ```
 
@@ -657,7 +666,7 @@ public:
 
 // These are NOT member functions!
 /* They can also be defined inside the class body but leaving them outside
-	is a clearer reminder that they are not part of the class */
+    is a clearer reminder that they are not part of the class */
 
 Complex operator+(const Complex& a, const Complex & b) 
 {
@@ -676,8 +685,8 @@ int main()
 {
     Complex a(1, 2);    //  1 + 2i
     Complex b(5, 3);    //  5 + 3i
-    Complex c = a + b;	//  6 + 5i
-    Complex d = a - b;	// -4 - 1i
+    Complex c = a + b;  //  6 + 5i
+    Complex d = a - b;  // -4 - 1i
 }
 ```
 
@@ -712,7 +721,7 @@ int main()
 ```
 
 ---
-### 1.6 Templates
+### Templates
 Templates are a very powerful abstraction allowing you to generate compile-time methods/classes/etc. for any number of types while writing only one implementation. Say you have a method that adds two floating point number together, and another to add two integers together:
 
 ```cpp
@@ -734,10 +743,10 @@ int main()
 {
     Add<int>(3, 5);         // int version
     Add<double>(3.2, 5.8);  // double
-    Add(3.45f, 5.0f);	    // we leave off the <float> here, since it can deduce the type from the context
-    Complex a {1, 2};	    // Custom class
+    Add(3.45f, 5.0f);       // we leave off the <float> here, since it can deduce the type from the context
+    Complex a {1, 2};       // Custom class
     Complex b {5, 3};
-    Add(a, b);	            // Works because we added support for the + operator!
+    Add(a, b);              // Works because we added support for the + operator!
 }
 ```
 
@@ -768,7 +777,8 @@ To avoid symbol names conflicting with one another you can use namespaces to log
 
 ```cpp
 // File: list.h
-namespace list {
+namespace list 
+{
 template <typename T>
     struct Node {
         Node* next;
@@ -782,7 +792,8 @@ template <typename T>
 // File: main.cpp
 #include "list.h"
 
-int main() {
+int main() 
+{
     list::Node<int> a;
 };
 ```
@@ -807,7 +818,6 @@ and there is no reference arithmetic like there is for pointers. You can access 
 
 Although pointers are incredibly powerful, references are generally much safer, especially when passing objects to methods using pass-by-reference. It is very common in C++ code to pass an object as a `const` reference (if the data should be unmutable within the method) or a non-const reference rather than a raw pointer.
 
-<img src="https://github.com/deivyka/OOP4200/blob/master/Exams/cpp_pics/pointer.jpg" alt="drawing" width="450"/>
 
 In the following code, assume a 32-bit system, in which case the size of a pointer variable is 4 bytes, and that the stack grows towards higher memory addresses.
 
@@ -843,7 +853,7 @@ cout << a << endl;          // ALSO PRINTS: 20 !
 int& ref_c;                 // ERROR! References must be initialized at their declaration
 ```
 
-Perhaps the most widely used aspect of references is to pass objects by reference (sometimes constant reference) to a method. To avoid hammering the stack with large objects when you pass them by value it is nearly always preferrable to pass by reference, which is the term used when using either a reference *or* a pointer. Using a reference allows you to pass any size object by reference, while still allowing you to access the object directly.
+Perhaps the most widely used aspect of references is to pass objects by reference (sometimes constant reference) to a method. To avoid hammering the stack with large objects when you pass them by value it is nearly always preferable to pass by reference, which is the term used when using either a reference *or* a pointer. Using a reference allows you to pass any size object by reference, while still allowing you to access the object directly.
 
 ```cpp
 // Pass by reference using a const reference
@@ -884,12 +894,13 @@ I recommend ignoring it, so that:
 It will only be available when you are programming with Microsoft Visual C++, which is substantially limiting.
 
 ---
-### 2.3 Linked lists
+### Linked lists
 A linked list is made up of many nodes which are connected in nature. Every node is mainly divided into two parts, one part holds the data and the other part is connected to a different node. Each node contains a data member and a link to another node. The last node doesn’t point to any other node and just stores NULL.
 ```cpp
 //--------------------------------------------------------------
 // Node structs contain data and a pointer to the next node.
-struct node {
+struct node 
+{
     int data;
     node* next; // pointer to next node
 };
@@ -904,8 +915,8 @@ private:
     node* tail;
     int listLength;
 /*
-	the most important part of a linked list is to always keep the track of the
-	first node (head) because access to the first node means access to the entire list.
+    the most important part of a linked list is to always keep the track of the
+    first node (head) because access to the first node means access to the entire list.
 */
 
 public:
@@ -933,7 +944,7 @@ public:
         }
     }
     /* if ‘a’ is a node then a->next is the node next to the ‘a’-node
-	(the pointer storing the address of the next node is named ‘next’)*/
+    (the pointer storing the address of the next node is named ‘next’)*/
 };
 
 int main() {
@@ -958,8 +969,8 @@ int main()
 {
     int num1, num2 = 0;
     char op;
-    cout<< "Enter two numbers with an operator between: ";
-    cin>> num1 >> op >> num2;
+    cout << "Enter two numbers with an operator between: ";
+    cin >> num1 >> op >> num2;
     if (!cin) { // check for invalid input.
         cout<<"Only numbers please"<<endl;
     }
@@ -972,7 +983,7 @@ int main()
         case '/':
             if (num2 == 0) { cout << "Don't divide by zero!"; }
             else
-                cout<<endl<< "The answer to " << num1 << op << num2
+                cout << endl << "The answer to " << num1 << op << num2
                 << " is " << (double) num1/num2 << endl;
             break;
         default:
@@ -990,7 +1001,8 @@ class calculator {
 public:
     double num1, num2, num3, res = 0.0;
     char op1, op2;
-    void input() {
+    void input() 
+    {
         cout << "Enter numbers with operators between: ";
         cin >> num1 >> op1 >> num2 >> op2 >> num3;
         if ((op1 == '/' && num2 == 0) || (op2 == '/' && num3 == 0))
@@ -1253,7 +1265,7 @@ int main() {
 ```
 
 #### Create class `Student` that stores name, age and what degree they are on.
-The constructor the must be able to accept information to initialise the object, and the constructor must print this to the screen : "Create a Student: <name>, <age>, <Degree>". The destructior must print the following message to the screen: "Deleted: : <name>, <age>, <Degree>".
+The constructor the must be able to accept information to initialize the object, and the constructor must print this to the screen : "Create a Student: <name>, <age>, <Degree>". The destructor must print the following message to the screen: "Deleted: : <name>, <age>, <Degree>".
 
 ```cpp
 class Student {
@@ -1306,26 +1318,32 @@ std::string Student::getName() const {return Name;}
 int Student::getAge() const {return Age;}
 std::string Student::getDegree() const {return Degree;}
 
-void Student::setName() {
+void Student::setName() 
+{
     std::string n;
     std::cout<<"Enter name: ";
     std::cin>>n;
     Name = n;
 }
-void Student::setAge() {
+
+void Student::setAge() 
+{
     int a;
     std::cout<<"Enter age: ";
     std::cin>>a;
     Age = a;
 }
-void Student::setDegree() {
+
+void Student::setDegree() 
+{
     std::string d;
     std::cout<<"Enter degree: ";
     std::cin>>d;
     Degree = d;
 }
 
-int main() {
+int main() 
+{
     Student stud2;
     stud2.setName();
     stud2.setAge();
@@ -1364,15 +1382,18 @@ void fillVec(std::vector<Student>& new_students){
         new_students.push_back(newStud);
     }
 }
-void printVec(const std::vector<Student>& new_students) {
-    for (int i=0; i<new_students.size(); i++) {
-        std::cout   <<"Created a student: "<<new_students[i].getName()
-                    <<", "<<new_students[i].getAge()
-                    <<", "<<new_students[i].getDegree()<< std::endl;
+void printVec(const std::vector<Student>& new_students) 
+{
+    for (int i=0; i<new_students.size(); i++) 
+    {
+        std::cout << "Created a student: " << new_students[i].getName()
+                  << ", " << new_students[i].getAge()
+                  << ", " << new_students[i].getDegree() << std::endl;
     }
 }
 
-int main() {
+int main() 
+{
     std::vector<Student> students;
     fillVec(students);
     printVec(students);
@@ -1594,7 +1615,8 @@ class Human
     void setName(std::string n) {Name = n;}
     void setAge(int a) {Age = a;}
 
-    virtual void printHuman() {
+    virtual void printHuman() 
+    {
         std::cout<<"Name: "<<Name<<std::endl
         <<"Age: "<<Age<<std::endl;
     }
@@ -1698,7 +1720,8 @@ class SecretAgent : private Human
         agentNr = " ";
         std::cout<<"Creating default Agent"<<std::endl;
     }
-    SecretAgent(std::string n, int a, std::string a_nr) {
+    SecretAgent(std::string n, int a, std::string a_nr) 
+    {
     //Name = n; //- private member of human
     //Age = a;  //- private member of human
         agentNr = a_nr;
@@ -1713,7 +1736,7 @@ class SecretAgent : private Human
     void printAgent() 
     {
         Human::printHuman();
-        std::cout<<"Agent: "<<agentNr<<std::endl;
+        std::cout << "Agent: " << agentNr << std::endl;
     }
 };
 
@@ -1733,12 +1756,12 @@ You can swap the value of two objects of the class/type string. As long as your 
 class abc 
 {
  public:
-	abc();
-	abc(std::string);
-	~abc(){;}
-	std::string getString() const;
+    abc();
+    abc(std::string);
+    ~abc(){;}
+    std::string getString() const;
  private:
-	std::string str;
+    std::string str;
 };
 
 abc::abc(std::string s) {str = s;}
@@ -1849,42 +1872,43 @@ A throw expression accepts one parameter and that parameter is passed to handler
 class ZeroException : public std::exception
 {
  public:
-	ZeroException() {}
-	ZeroException(int);
-	~ZeroException(){;}
-  	int getTeller() const {return teller;}
+    ZeroException() {}
+    ZeroException(int);
+    ~ZeroException(){;}
+    int getTeller() const {return teller;}
     void setTeller(int t) {teller = t;}
-	int teller;	// what the divider attempted to divide by zero.
+    int teller; // what the divider attempted to divide by zero.
 };
 
 ZeroException::ZeroException(int t) : teller(t){}
 
 float divide(int numerator, int divisor)
 {
-	if (divisor == 0)
+    if (divisor == 0)
     {
-		ZeroException e;
-		e.setTeller(numerator);
-		throw e; // throw exception
-	}
-	return (numerator/divisor);
+        ZeroException e;
+        e.setTeller(numerator);
+        throw e; // throw exception
+    }
+    return (numerator/divisor);
 }
 void testDivisor(void)
 {
-	for (int i=1 ;; i++)
+    for (int i=1 ;; i++)
     {
-		try { divide(i, rand()%100); }
-		catch (const ZeroException& e)
+        try { divide(i, rand()%100); }
+        catch (const ZeroException& e)
         {
-			std::cout<<"Divided "<< i <<" times without generating a divide by zero."<<std::endl;
-			std::cout<<"Got divided: "<<e.getTeller()<<" by zero. "<<std::endl;
-			exit(1);
-		}
-	}
+            std::cout<<"Divided "<< i <<" times without generating a divide by zero."<<std::endl;
+            std::cout<<"Got divided: "<<e.getTeller()<<" by zero. "<<std::endl;
+            exit(1);
+        }
+    }
 }
 
-int main() {
-	testDivisor();
+int main() 
+{
+    testDivisor();
 }
 ```
 ---
@@ -1928,10 +1952,13 @@ class Matrix
 };
 
 // Parameter Constructor
-Matrix::Matrix(unsigned _m, unsigned _n, const double& _init1, const double& _init2) {
+Matrix::Matrix(unsigned _m, unsigned _n, const double& _init1, const double& _init2) 
+{
   mat.resize(_m, std::vector<double>(_n, _init1));
-  for (unsigned i=0; i<_m-1; i++) {
-    for (unsigned j=0; j<_n-1; j++) {
+  for (unsigned i=0; i<_m-1; i++) 
+  {
+    for (unsigned j=0; j<_n-1; j++) 
+    {
       mat[i][j] = _init1;     // [0 0]
       mat[i][j+1] = _init2;   // [0 1]
       mat[i+1][j] = _init1;   // [1 0]
@@ -1941,24 +1968,31 @@ Matrix::Matrix(unsigned _m, unsigned _n, const double& _init1, const double& _in
   m = _m;
   n = _n;
 }
+
 // Copy Constructor
-Matrix::Matrix(const Matrix& rhs) {
+Matrix::Matrix(const Matrix& rhs) 
+{
   mat = rhs.mat;
   m = rhs.get_m();
   n = rhs.get_n();
 }
+
 // Assignment Operator
-Matrix& Matrix::operator=(const Matrix& rhs) {
+Matrix& Matrix::operator=(const Matrix& rhs) 
+{
   if (&rhs == this)
     return *this;
   unsigned new_m = rhs.get_m();
   unsigned new_n = rhs.get_n();
   mat.resize(new_m);
-  for (unsigned i=0; i<mat.size(); i++) {
+  for (unsigned i=0; i<mat.size(); i++) 
+  {
     mat[i].resize(new_n);
   }
-  for (unsigned i=0; i<new_m; i++) {
-    for (unsigned j=0; j<new_n; j++) {
+  for (unsigned i=0; i<new_m; i++) 
+  {
+    for (unsigned j=0; j<new_n; j++) 
+    {
       mat[i][j] = rhs(i, j);
     }
   }
@@ -1966,60 +2000,79 @@ Matrix& Matrix::operator=(const Matrix& rhs) {
   n = new_n;
   return *this;
 }
+
 // Left multiplication of this matrix and another
-Matrix Matrix::operator*(const Matrix& rhs) {
+Matrix Matrix::operator*(const Matrix& rhs) 
+{
   unsigned m = rhs.get_m();
   unsigned n = rhs.get_n();
   Matrix result(m, n, 0.0, 0.0);
-  for (unsigned i=0; i<m; i++) {
-    for (unsigned j=0; j<n; j++) {
-      for (unsigned k=0; k<m; k++) {
+  for (unsigned i=0; i<m; i++) 
+  {
+    for (unsigned j=0; j<n; j++) 
+    {
+      for (unsigned k=0; k<m; k++) 
+      {
         result(i,j) += this->mat[i][k] * rhs(k,j);
       }
     }
   }
   return result;
 }
+
 // Cumulative left multiplication of this matrix and another
-Matrix& Matrix::operator*=(const Matrix& rhs) {
+Matrix& Matrix::operator*=(const Matrix& rhs) 
+{
   Matrix result = (*this) * rhs;
   (*this) = result;
   return *this;
 }
+
 // Matrix/scalar multiplication
-Matrix Matrix::operator*(const double& rhs) {
+Matrix Matrix::operator*(const double& rhs) 
+{
   Matrix result(m, n, 0.0, 0.0);
-  for (unsigned i=0; i<m; i++) {
-    for (unsigned j=0; j<n; j++) {
+  for (unsigned i=0; i<m; i++) 
+  {
+    for (unsigned j=0; j<n; j++) 
+    {
       result(i,j) = this->mat[i][j] * rhs;
     }
   }
   return result;
 }
 // Multiply a matrix with a vector
-std::vector<double> Matrix::operator*(const std::vector<double>& rhs) {
+std::vector<double> Matrix::operator*(const std::vector<double>& rhs) 
+{
   std::vector<double> result(rhs.size(), 0.0);
-  for (unsigned i=0; i<m; i++) {
-    for (unsigned j=0; j<n; j++) {
+  for (unsigned i=0; i<m; i++) 
+  {
+    for (unsigned j=0; j<n; j++) 
+    {
       result[i] = this->mat[i][j] * rhs[j];
     }
   }
   return result;
 }
+
 // Access the individual elements
 double& Matrix::operator()(const unsigned& row, const unsigned& col)
 {
   return this->mat[row][col];
 }
+
 // Access the individual elements (const)
 const double& Matrix::operator()(const unsigned& row, const unsigned& col) const
 {
   return this->mat[row][col];
 }
+
 // Get the number of rows of the matrix
-unsigned Matrix::get_m() const {
+unsigned Matrix::get_m() const 
+{
   return this->m;
 }
+
 // Get the number of columns of the matrix
 unsigned Matrix::get_n() const
 {
@@ -2052,7 +2105,8 @@ int main(int argc, char const *argv[])
 ### Template stack
 ```cpp
 template <class CElement>
-class CStack {
+class CStack 
+{
 private:
     CElement m_Array[10];
     int m_nTOS;
@@ -2062,28 +2116,148 @@ public:
     CElement Pop();
 };
 
-template <class CElement> CStack<CElement>::CStack() {
-	memclr( m_Array, sizeof(m_Array) );
-	m_nTOS = 0;
+template <class CElement> CStack<CElement>::CStack() 
+{
+    memclr( m_Array, sizeof(m_Array) );
+    m_nTOS = 0;
 }
-template <class CElement> void CStack<CElement>::Push(CElement e) {
+
+template <class CElement> void CStack<CElement>::Push(CElement e) 
+{
     if (m_nTOS == 10)
         return;
     m_Array[m_nTOS++] = e;
 }
-template <class CElement> CElement CStack<CElement>::Pop() {
-	if ( m_nTOS > 0 ) m_nTOS--;
-	return m_Array[m_nTOS];
+
+template <class CElement> CElement CStack<CElement>::Pop() 
+{
+    if ( m_nTOS > 0 ) m_nTOS--;
+    return m_Array[m_nTOS];
 }
 
-int main() {
-    CStack<int>	IntStack;
+int main() 
+{
+    CStack<int> IntStack;
     CStack<char> CharStack;
     IntStack.Push(1);
     IntStack.Push(2);
-    cout << IntStack.Pop() << IntStack.Pop()<< IntStack.Pop() << endl;
+    cout << IntStack.Pop() << IntStack.Pop() << IntStack.Pop() << endl;
     CharStack.Push('A');
     CharStack.Push('B');
-    cout<<CharStack.Pop()<<CharStack.Pop()<< CharStack.Pop() << endl;
+    cout << CharStack.Pop() << CharStack.Pop() << CharStack.Pop() << endl;
 }
 ```
+
+---
+## C++11
+The C++11 standard introduced support for:
+* lambdas
+* multi-threading
+* improved object construction mechanisms. 
+
+### General Language Enhancements in C++11: 
+* auto variables; Using auto in template definitions; 
+* Using decltype; 
+* New return syntax; 
+* Range-based for loops; 
+* Making your own classes iterable; 
+* Generalized constant expressions; 
+* Strongly-typed enums; 
+* Null pointers; 
+* Explicit overrides; 
+* Static asserts
+
+### Additional Language Features in C++11: 
+* Lvalues, rvalues, and rrvalues; 
+* Movability; 
+* Reference binding rules; 
+* Support for movability in the STL; 
+* Improved initialization syntax; 
+* Inheriting and delegating constructors; 
+* Regular expressions; 
+* Date and time; Chrono; 
+* Explicit conversions; 
+* Variadic templates
+
+
+## C++14
+New Language Features in C++14: 
+* Function return type deduction;
+* Alternate type deduction in declarations; 
+* Relaxed constexpr restrictions;
+* Variable templates; 
+* Aggregate member initialization;
+* Standard user-defined literals
+
+
+
+## C++17
+What's New in C++17: 
+* Nested namespaces; 
+* Attributes; 
+* Fold expressions in **variadic** templates; 
+* Aggregate initialization with inheritance;
+* Lambda enhancements; 
+* Template class type deduction; 
+* Inline variables; 
+* Library enhancements; 
+* Parallel algorithms; 
+* Miscellaneous enhancements and additions
+
+## C++20
+What's New in C++20: 
+* Concepts; 
+* Ranges; 
+* Lambda improvements; 
+* The spaceship operator; 
+* Atomic smart pointers; 
+* Concurrency and synchronization improvements; 
+* Co-routines; 
+* Modules; 
+* The consteval and constinit keywords; 
+* Miscellaneous enhancements and additions
+
+
+## Containers: 
+* Overview of new STL features; 
+* Using std array and forward_list; 
+* Using unordered containers; 
+* Understanding hashing; 
+* Defining a custom hash function; 
+* Understanding buckets; 
+* In-place construction; 
+* Heterogeneous lookup in associative containers in C++14
+
+
+## Multi-threading: 
+* Creating simple threads using std thread; 
+* Using lambda expressions with threading; 
+* Accessing the current thread; 
+* Using mutexes; 
+* Lock management and lock strategies; 
+* Atomic variables; 
+* Condition variables; 
+* Calling functions asynchronously; 
+* Working with future values; 
+* Shared mutexes and locking in C++14.
+
+
+## Smart Pointers: 
+Shared pointers; Weak pointers; Unique pointers; Techniques and patterns.
+ 
+
+## Functional Programming: 
+* std bind to bind parameters; 
+* Using placeholders with for_each(); 
+* Passing by reference; 
+* Using std function to represent free functions and member functions
+
+## Lambda Expressions:
+* Overview of lambda expressions; 
+* Lambda syntax in C++11; 
+* Defining lambdas with arguments and a return value; 
+* Variable capture; 
+* Using lambdas with the STL; 
+* Performance considerations; 
+* Generic lambdas and lambda capture expressions in C++14
+ 
