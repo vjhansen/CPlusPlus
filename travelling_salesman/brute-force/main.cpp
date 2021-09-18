@@ -11,7 +11,7 @@
 #include <cmath>
 #include <algorithm>
 
-#include "point.h"
+#include "brute-force/point.h"
 
 // Overloaded constructor
 Point::Point(double x, double y, double z):
@@ -19,14 +19,16 @@ Point::Point(double x, double y, double z):
 
 
 // 3D Euclidean space: sqrt( (x2-x1)^2 + (y2-y1)^2 + (z2-z1)^2 )
-double Point::calcDist(const Point &p2) const
+double
+Point::calcDist(const Point &p2) const
 {
     return sqrt(pow(p2.getX_coord() - x_coord, 2)
                 + pow(p2.getY_coord() - y_coord, 2)
                 + pow(p2.getZ_coord() - z_coord, 2));
 }
 
-void read_txt_and_fill(std::vector<Point>& txt_points)
+void
+read_txt_and_fill(std::vector<Point>& txt_points)
 {
     std::ifstream myfile;
     std::vector<int> read_point;
@@ -55,7 +57,8 @@ void read_txt_and_fill(std::vector<Point>& txt_points)
     }
 }
 
-void manualFill(std::vector<Point>& fill_points)
+void
+manualFill(std::vector<Point>& fill_points)
 {
     double x, y, z;
     std::cout << "\nHow many points? ";
@@ -70,14 +73,15 @@ void manualFill(std::vector<Point>& fill_points)
     }
 }
 
-void printVec(const std::vector<Point>& points)
+void
+printVec(const std::vector<Point>& points)
 {
     std::cout << "\nWe have " << points.size() << " points\n";
     for (int i=0; i < points.size(); i++)
     {
         std::cout << "Point("<< i <<"): " << points[i].getX_coord()
         << ", " << points[i].getY_coord()
-        << ", " << points[i].getZ_coord()<< std::endl;
+        << ", " << points[i].getZ_coord()<< "\n";
     }
 }
 
@@ -85,11 +89,12 @@ void printVec(const std::vector<Point>& points)
 /*  Function takes a vector of points, and the order in which those points are visited.
     Then computes total length of path when the points are traveled in a specified order.
     The path is a complete round trip */
-double circuitLength(
+double
+circuitLength(
         const std::vector<Point>& points,
         const std::vector<int>& order)
 {
-    double dist_tot = 0.0;
+    auto dist_tot = 0.0;
     for (int i = 0; i < points.size(); i++)
     {
         dist_tot += points[order[i]].calcDist(points[order[(i+1)%(order.size())]]);
@@ -100,7 +105,8 @@ double circuitLength(
 
 /*  Function takes a vector of points, and returns a vector that specifies the order to visit all of the points in a single round trip.
     Visiting each point once, to ensure that the trip is as short as possible. This function will solve the TSP. */
-std::vector<int> findShortestPath(const std::vector<Point>& points)
+std::vector<int>
+findShortestPath(const std::vector<Point>& points)
 {
     std::vector<int> bestPath;
     std::vector<int> thisPath(points.size());  // initialize with size
@@ -123,7 +129,8 @@ std::vector<int> findShortestPath(const std::vector<Point>& points)
     return bestPath;
 }
 
-static void printPath(const std::vector<int> &shortestPath)
+static void
+printPath(const std::vector<int> &shortestPath)
 {
     std::cout << "\nBest order: [ ";
     for (auto i = 0; i < shortestPath.size(); i++)
@@ -134,7 +141,7 @@ static void printPath(const std::vector<int> &shortestPath)
 }
 
 
-int main() 
+int main()
 {
     std::vector<Point> points;
     auto choice = 0;
@@ -154,9 +161,9 @@ int main()
     std::vector<int> shortestPath;
     shortestPath = findShortestPath(points);
     printPath(shortestPath);
-    std::cout   << "\nShortest distance: "
+    std::cout << "\nShortest distance: "
                 << circuitLength(points, shortestPath)
-                << std::endl;
+                << "\n";
     points.clear();
     return 0;
 }

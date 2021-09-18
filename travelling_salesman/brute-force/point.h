@@ -21,4 +21,4 @@ class Point {
     double calcDist(const Point &p) const;
 };
 
-#endif
+#endif  // TRAVELLING_SALESMAN_BRUTE_FORCE_POINT_H_

@@ -1,0 +1,5 @@
+001 Ibsen,Bergen,25
+007 Bond,London,52
+042 Patrice,Paris,55
+101 Clarke,LA,21
+
